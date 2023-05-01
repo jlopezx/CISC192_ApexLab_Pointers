@@ -1,34 +1,68 @@
 //
-// Don't modify code in this file.
+// Don't modify code in this file, with the exception
+// of adding test cases.
 //
-#define _USE_MATH_DEFINES
-#include <cmath>
+#include <iostream>
+#include <iomanip>
+#include <random>
+#include "apex_code.h"
 
-#ifndef APEXLAB_APEX_CODE_H
-#define APEXLAB_APEX_CODE_H
+using namespace std;
 
-struct Cup
+bool near(double expected, double result, double threshold)
 {
-    double TopRadiusCms;
-    double BottomRadiusCms;
-    double HeightCms;
-    double AmountOfFluid;
+    return abs(expected - result) < threshold;
+}
 
-    Cup(double topRadius, double bottomRadius, double height)
+// Use when testing double values
+bool testNear(double expected, double result)
+{
+    if(false == near(expected, result, 0.002))
     {
-        TopRadiusCms = topRadius;
-        BottomRadiusCms = bottomRadius;
-        HeightCms = height;
-        AmountOfFluid = 0;
+        cout << "FAILED: Expected " << expected << ", received " << result << ".\n";
+    }
+    else {
+        cout << "PASS\n";
     }
 
-    double capacityInMls() const;
-};
+    return expected == result;
+}
 
-bool addFluid(Cup * cup, double ozs);
+// Use for everything other than doubles/floats
+template<typename T> bool test(T expected, T result)
+{
+    if(expected != result)
+    {
+        cout << "FAILED: Expected " << expected << ", received " << result << ".\n";
+    }
+    else {
+        cout << "PASS\n";
+    }
 
-double howFull(const Cup & cup);
+    return expected == result;
+}
+int main()
+{
+    // To add a test case, duplicate the test lines below
+    // You can add more local cup instances
 
-bool mlPerDollar(const Cup & cup, double pricePerDrink, double & output);
+    Cup unitCup(1, 1, 1);
+    Cup twoCup(2, 1, 1);
+    Cup cup(5.3, 4.0, 9.0);
 
-#endif //APEXLAB_APEX_CODE_H
+    Cup* cupPtr = new Cup(twoCup);
+
+    (void)testNear(3.1415, unitCup.capacityInMls());
+    (void)testNear(615.3437, cup.capacityInMls());
+    (void)testNear(7.3303, twoCup.capacityInMls());
+
+    cupPtr->HeightCms = 2;
+    (void)testNear(14.6608, cupPtr->capacityInMls());
+  
+    (void)test<bool>(true, halfFull(cup, 400));
+
+    (void)testNear(189.3365, mlPerDollar(cup, 3.25));
+
+    (void)test<bool>(false, fitInCupboard(&cup, 10.0, 5.0));
+    return 0;
+}
