@@ -52,17 +52,36 @@ int main()
 
     Cup* cupPtr = new Cup(twoCup);
 
+    // test capacityInMls
     (void)testNear(3.1415, unitCup.capacityInMls());
-    (void)testNear(615.3437, cup.capacityInMls());
     (void)testNear(7.3303, twoCup.capacityInMls());
-
     cupPtr->HeightCms = 2;
     (void)testNear(14.6608, cupPtr->capacityInMls());
+    cupPtr->BottomRadiusCms = 2;
+    (void)testNear(25.1327, cupPtr->capacityInMls());
   
-    (void)test<bool>(true, halfFull(cup, 400));
+    // test addFluid and howFull
+    (void)testNear(0.0, howFull(*cupPtr));
+    test<bool>(true, addFluid(cupPtr, 25));
+    (void)testNear(0.994718, howFull(*cupPtr));
+    test<bool>(false, addFluid(cupPtr, 1));
+    (void)testNear(0.994718, howFull(*cupPtr));
 
-    (void)testNear(189.3365, mlPerDollar(cup, 3.25));
+    (void)testNear(0.0, howFull(unitCup));
+    test<bool>(true, addFluid(&unitCup, 2));
+    (void)testNear(0.63662, howFull(unitCup));
+    test<bool>(true, addFluid(&unitCup, -1));
+    (void)testNear(0.31831, howFull(unitCup));
+    test<bool>(false, addFluid(&unitCup, -2));
+    (void)testNear(0.31831, howFull(unitCup));
 
-    (void)test<bool>(false, fitInCupboard(&cup, 10.0, 5.0));
+    double output;
+    (void)testNear(true, mlPerDollar(cup, 3.25, output));
+    (void)testNear(189.3365, output);
+    (void)testNear(false, mlPerDollar(cup, -3.25, output));
+    (void)testNear(189.3365, output);
+    //(void)testNear(0.251202, mlPerDollar(*cupPtr, 100.05));
+    //(void)testNear(12.5664, mlPerDollar(cup, -3.25));
+
     return 0;
 }
