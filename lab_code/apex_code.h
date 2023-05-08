@@ -25,7 +25,7 @@ struct Cup
     double capacityInMls() const;
 };
 
-bool addFluid(Cup * cup, double ozs);
+bool addFluid(Cup * cup, double mls);
 
 double howFull(const Cup & cup);
 
