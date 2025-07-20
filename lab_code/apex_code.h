@@ -9,26 +9,26 @@
 
 struct Cup
 {
-    double TopRadiusCms;
-    double BottomRadiusCms;
-    double HeightCms;
-    double AmountOfFluid;
+    double topRadiusCms;
+    double bottomRadiusCms;
+    double heightCms;
+    double amountOfFluid;
 
     Cup(double topRadius, double bottomRadius, double height)
     {
-        TopRadiusCms = topRadius;
-        BottomRadiusCms = bottomRadius;
-        HeightCms = height;
-        AmountOfFluid = 0;
+        topRadiusCms = topRadius;
+        bottomRadiusCms = bottomRadius;
+        heightCms = height;
+        amountOfFluid = 0;
     }
 
     double capacityInMls() const;
 };
 
-bool addFluid(Cup * cup, double mls);
+bool addFluid(Cup* cup, double mls);
 
-double howFull(const Cup & cup);
+double howFull(const Cup& cup);
 
-bool mlPerDollar(const Cup & cup, double pricePerDrink, double & output);
+bool mlPerDollar(const Cup& cup, double pricePerDrink, double& output);
 
 #endif //APEXLAB_APEX_CODE_H
