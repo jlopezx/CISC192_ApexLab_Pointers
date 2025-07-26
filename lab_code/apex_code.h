@@ -7,6 +7,12 @@
 #ifndef APEXLAB_APEX_CODE_H
 #define APEXLAB_APEX_CODE_H
 
+// Constants declared to avoid magic numbers. Used in the truncated cone volume formula in apex_code.cpp
+// One third factor is used to help calculate the volume of a cone
+const double ONE_THIRD_FACTOR = 1.0/3.0;
+// Square is used to square numbers
+const int SQUARE = 2;
+
 struct Cup
 {
     double topRadiusCms;
